@@ -1,14 +1,20 @@
-import { Alert, View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { Alert, View, Image, Text, StyleSheet } from "react-native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
+import { getMapPreview } from "../../util/location";
 
 import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
 
 const LocationPicker = () => {
+  const [pickedLocation, setPickedLocation] = useState({
+    lat: "0",
+    lng: "0",
+  });
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
@@ -38,15 +44,36 @@ const LocationPicker = () => {
     if (!hasPermission) {
       return;
     }
-    
+
     const location = await getCurrentPositionAsync();
+    setPickedLocation({
+      lat: location.coords.latitude.toString(),
+      lng: location.coords.longitude.toString(),
+    });
     console.log(location);
   };
 
   const pickOnMapHandler = () => {};
+
+  let locationPreview = (
+    <Text style={styles.noLoc}>No location chosen yet!</Text>
+  );
+
+  if (pickedLocation.lat !== "0") {
+    locationPreview = (
+      <Image
+        style={styles.image}
+        source={{
+          uri: getMapPreview(pickedLocation.lat, pickedLocation.lng),
+        }}
+      />
+    );
+  }
   return (
     <View>
-      <View style={styles.mapPreview}></View>
+      <View style={styles.mapPreview}>
+      {locationPreview}
+      </View>
       <View style={styles.actions}>
         <OutlinedButton icon="location" onPress={getLocationHandler}>
           Locate User
@@ -75,5 +102,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 4,
+  },
+  noLoc: {
+    textAlign: "center",
+    color: "black",
+    fontSize: 16,
+    justifyContent: "center",
   },
 });
