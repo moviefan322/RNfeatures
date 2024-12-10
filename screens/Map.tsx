@@ -1,20 +1,21 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 const Map = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Map</Text>
-    </View>
-  );
+  const region = {
+    latitude: 40.697594, 
+    longitude: -73.916976,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
+
+  return <MapView style={styles.map} initialRegion={region}></MapView>;
 };
 
 export default Map;
 
 const styles = StyleSheet.create({
-  container: {
+  map: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

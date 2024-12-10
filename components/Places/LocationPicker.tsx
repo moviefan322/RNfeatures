@@ -6,6 +6,7 @@ import {
   PermissionStatus,
 } from "expo-location";
 import { getMapPreview } from "../../util/location";
+import { useTypedNavigation } from "../../types/useTypedNavigation";
 
 import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
@@ -15,6 +16,7 @@ const LocationPicker = () => {
     lat: "0",
     lng: "0",
   });
+  const navigation = useTypedNavigation();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
 
@@ -53,7 +55,9 @@ const LocationPicker = () => {
     console.log(location);
   };
 
-  const pickOnMapHandler = () => {};
+  const pickOnMapHandler = () => {
+    navigation.navigate("Map");
+  };
 
   let locationPreview = (
     <Text style={styles.noLoc}>No location chosen yet!</Text>
