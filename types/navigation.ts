@@ -1,5 +1,6 @@
 export interface RootStackParamList {
   AllPlaces: undefined;
-  AddPlace: undefined;
+  AddPlace: { lat?: number; lng?: number };
   Map: undefined;
+  [key: string]: object | undefined;
 }
