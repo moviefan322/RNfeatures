@@ -5,7 +5,7 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
-import { getMapPreview } from "../../util/location";
+import { getMapPreview, getAddress } from "../../util/location";
 import { useRoute, RouteProp, useIsFocused } from "@react-navigation/native";
 import { useTypedNavigation } from "../../types/useTypedNavigation";
 import { RootStackParamList } from "../../types/navigation";
@@ -13,7 +13,11 @@ import { RootStackParamList } from "../../types/navigation";
 import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
 
-const LocationPicker = () => {
+interface LocationPickerProps {
+  onTakeLocation: (lat: string, lng: string, address: string) => void;
+}
+
+const LocationPicker = ({ onTakeLocation }: LocationPickerProps) => {
   const [pickedLocation, setPickedLocation] = useState({
     lat: "0",
     lng: "0",
@@ -38,6 +42,23 @@ const LocationPicker = () => {
       });
     }
   }, [route, isFocused]);
+
+  useEffect(() => {
+    const handleLocation = async () => {
+      if (pickedLocation) {
+        const address = await getAddress(
+          pickedLocation.lat,
+          pickedLocation.lng
+        );
+        onTakeLocation(
+          pickedLocation.lat,
+          pickedLocation.lng,
+          address,
+        );
+      }
+    };
+    handleLocation();
+  }, [pickedLocation, onTakeLocation]);
 
   const verifyPermissions = async () => {
     if (

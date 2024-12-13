@@ -9,7 +9,11 @@ import {
 import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
 
-const ImagePicker = () => {
+interface ImagePickerProps {
+  onTakeImage: (imageUri: string) => void;
+}
+
+const ImagePicker = ({ onTakeImage }: ImagePickerProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null); // [1
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
@@ -47,6 +51,7 @@ const ImagePicker = () => {
     console.log(image);
     if (!image.canceled) {
       setSelectedImage(image.assets[0].uri);
+      onTakeImage(image.assets[0].uri);
     }
   };
 
