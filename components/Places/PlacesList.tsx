@@ -25,6 +25,7 @@ const PlacesList = ({ places }: PlacesListProps) => {
 
   return (
     <FlatList
+      style={styles.list}
       data={places}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <PlaceItem place={item} onSelect={onSelect} />}
@@ -35,6 +36,9 @@ const PlacesList = ({ places }: PlacesListProps) => {
 export default PlacesList;
 
 const styles = StyleSheet.create({
+  list: {
+    margin: 24,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
