@@ -5,7 +5,7 @@ import PlaceItem from "./PlaceItem";
 import { Colors } from "../../constants/colors";
 
 interface PlacesListProps {
-  places: Place[];
+  places: Place[] | [];
 }
 
 const PlacesList = ({ places }: PlacesListProps) => {

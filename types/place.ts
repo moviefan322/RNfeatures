@@ -3,7 +3,7 @@ interface Place {
     title: string;
     imageUri: string;
     address: string;
-    location: { lat: number; lng: number };
+    location: { lat: string; lng: string };
 }
 
 export default Place;
