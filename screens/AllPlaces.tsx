@@ -9,6 +9,7 @@ import { Place } from "../models/Place";
 
 interface AllPlacesProps {
   route: RouteProp<RootStackParamList, "AllPlaces">;
+  navigation: any;
 }
 
 const AllPlaces = ({ route }: AllPlacesProps) => {
