@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../types/navigation";
 
 import PlacesList from "../components/Places/PlacesList";
 import { Place } from "../models/Place";
+import { fetchPlaces } from "../util/database";
 
 interface AllPlacesProps {
   route: RouteProp<RootStackParamList, "AllPlaces">;
@@ -17,13 +18,17 @@ const AllPlaces = ({ route }: AllPlacesProps) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (isFocused && route.params?.place) {
-      setLoadedPlaces((prev) => {
-        if (route.params?.place) {
-          return [...prev, route.params.place];
-        }
-        return prev;
-      });
+    const loadPlaces = async () => {
+      await fetchPlaces();
+    };
+    if (isFocused) {
+      loadPlaces();
+      // setLoadedPlaces((prev) => {
+      //   if (route.params?.place) {
+      //     return [...prev, route.params.place];
+      //   }
+      //   return prev;
+      // });
     }
   }, [isFocused, route]);
 
